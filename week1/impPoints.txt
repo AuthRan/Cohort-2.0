@@ -1,0 +1,44 @@
+Understand diff between call stack vs web apis vs callback queue vs event loop
+
+
+🌍 What actually happens with setTimeout
+
+Example:
+
+console.log("Start");
+
+setTimeout(() => {
+  console.log("Inside timeout");
+}, 2000);
+
+console.log("End");
+
+Step-by-step flow:
+
+Main thread runs line by line:
+
+"Start" is logged.
+
+setTimeout is called.
+
+Environment handles the timer:
+
+The browser (or Node.js) has a timer system running in the background (this is outside the JS thread).
+
+It starts a 2-second countdown.
+
+Main thread keeps going:
+
+"End" is logged immediately (because the timer is still ticking in the background).
+
+When 2 seconds are up:
+
+The background timer says: “Okay, the callback is ready!”
+
+It places the callback function (() => console.log("Inside timeout")) into the callback queue.
+
+Event loop to the rescue:
+
+The event loop checks:
+"Is the main thread free?"
+If yes, it takes the callback from the queue and executes it on the main thread.
