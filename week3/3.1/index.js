@@ -4,10 +4,16 @@ const z = require('zod')
 const app = express();
 app.use(express.json())
 
-app.get('/health-check', (req, res) => {
-    let numKidney = req.body.num;
+const kidneys = z.object({
+    num : z.number().min(1).max(2)
+})
 
-    res.send("You have "+numKidney+" of kidneys");
+app.post('/health-check', (req, res) => {
+    let data = kidneys.safeParse(req.body)
+    
+    res.json({
+        data : data
+    })
 });
 
 app.use((error, req, res, next) => {
