@@ -10,6 +10,7 @@ app.post('/todo', (req, res) => {
     const parsedPayload = createTodo.safeParse(createPayload)
     if (!parsedPayload.success) {
         res.status(411).json({
+            // 2xx Success, 4xx Client side error, 5xx Server Error
             msg : "You sent the wrong inputs"
         })
         return ;
@@ -31,7 +32,7 @@ app.put('/completed', (req, res) => {
         })
         return ;
     }
-    
+
 })
 
 app.listen(3000, () => {
