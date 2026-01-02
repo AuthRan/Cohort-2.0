@@ -1,22 +1,21 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import {CreateTodo} from './components/CreateTodo.jsx'
 import {Todos} from './components/Todos.jsx'
 function App() {
-  const [count, setCount] = useState(0)
+  const [todos, setTodos] = useState([])
+
+  // This is ugly way of doing it the better approach is using useEffect hook.
+  fetch("http://localhost:3000/todos")
+  .then(async function(res) {
+    const json = await res.json()
+    setTodos(json.todos)
+  })
 
   return (
     <div>
       <CreateTodo />
-      <Todos todos={[
-        {
-          title : "asd",
-          description : "asdfasdf",
-          completed : false
-        }
-      ]}/>
+      <Todos todos={todos}/>
     </div>
   )
 }
